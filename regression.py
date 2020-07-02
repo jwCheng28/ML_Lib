@@ -57,6 +57,14 @@ def gradient_descent(X, y, theta, alpha, iteration):
 		history.append(cost_function(X, y, theta))	
 	return theta, history
 
+# Implementation of Normal Equation
+def normalEquation(X, y):
+    X_t = np.transpose(X)
+    A = np.dot(X_t, X)
+    I = np.linalg.inv(A)
+    theta = np.dot(I, X_t).dot(y)
+    return theta
+
 # Show and Return Results of Gradient Descent
 def results(X, y, theta, alpha, iteration):
 	theta, history = gradient_descent(X, y, theta, alpha, iteration)
@@ -91,6 +99,8 @@ def checkProg(history):
 iteration = 20
 alpha = 0.00005
 theta, history = results(X, y, theta, alpha, iteration)
+print("Compare Theta with Normal Equation")
+print(normalEquation(X, y))
 show(X, y, theta, history)
 
 
