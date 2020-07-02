@@ -1,12 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Import or Create random Data Sets for Testing
+# Import or Data Sets for Testing
+
+# Random Training Set
 def randomData(start, end, size):
 	X = np.random.randint(start, end, (size,))
 	y = np.random.randint(start, end, (size,))
 	return X, y
 
+# y = x clustered data
 def linearCluster(interval, amount, size):
 	X = np.random.randint(0, interval + 20, (size//amount,))
 	y = np.random.randint(0, interval + 20, (size//amount,))
@@ -17,12 +20,14 @@ def linearCluster(interval, amount, size):
 		y = np.append(y, temp2)
 	return X, y
 
-X, y = linearCluster(50, 2, 90)
-
+# Basic Feature Scaling
 def featureScaling(X, y):
 	rangeX = max(X) - min(X)
 	rangey = max(y) - min(y)
 	return (X/rangeX), (y/rangey)
+
+# Initial X (input/features), y (output)
+X, y = linearCluster(50, 2, 90)
 
 # Initial Theta Val
 theta = [0, 0]
@@ -36,11 +41,13 @@ m = y.size
 # Create additional dimension of 1 for X
 X = np.stack([np.ones(m), X], axis=1)
 
+# Implementation of Cost Function, single variable
 def cost_function(X, y, theta):
 	m = y.size
 	J = (1 / (2 * m)) * sum(np.square(np.dot(X, theta) - y))
 	return J
 
+# Implementation of Gradient Descent, single variable
 def gradient_descent(X, y, theta, alpha, iteration):
 	m = y.size
 	theta = theta.copy()
@@ -50,6 +57,7 @@ def gradient_descent(X, y, theta, alpha, iteration):
 		history.append(cost_function(X, y, theta))	
 	return theta, history
 
+# Show and Return Results of Gradient Descent
 def results(X, y, theta, alpha, iteration):
 	theta, history = gradient_descent(X, y, theta, alpha, iteration)
 	print("Final Theta:")
@@ -60,6 +68,7 @@ def results(X, y, theta, alpha, iteration):
 	print(history[iteration-10:iteration])
 	return theta, history
 
+# Show plots of result line and data, with Cost over Iterations
 def show(X, y, theta, history):
 	fig = plt.figure(1)
 	plt.plot(X[:,1], y, 'o', color='#c6aadf', ms=10, mec='k', label = "Training Set")
@@ -70,6 +79,7 @@ def show(X, y, theta, history):
 	checkProg(history)
 	plt.show()
 
+# Show Cost over Iterations
 def checkProg(history):
 	fig = plt.figure(2)
 	time = [i for i in range(len(history))]
@@ -77,6 +87,7 @@ def checkProg(history):
 	plt.ylabel("Cost")
 	plt.xlabel("No. of Iterations")
 
+# Testing
 iteration = 20
 alpha = 0.00005
 theta, history = results(X, y, theta, alpha, iteration)
