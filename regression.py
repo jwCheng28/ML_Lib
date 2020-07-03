@@ -21,10 +21,11 @@ def linearCluster(interval, amount, size):
     return X, y
 
 # Basic Feature Scaling
-def featureScaling(X, y):
-    rangeX = max(X) - min(X)
-    rangey = max(y) - min(y)
-    return (X/rangeX), (y/rangey)
+def featureScaling(X):
+    X = X.copy()
+    u_X = np.mean(X)
+    sigma = np.std(X)
+    return (X - u_X) / sigma
 
 # Initial X (input/features), y (output)
 X, y = linearCluster(50, 2, 90)
@@ -36,10 +37,11 @@ theta = [0, 0]
 m = y.size
 
 # Feature Scale Training Set
-#X, y = featureScaling(X, y)
+X_s = featureScaling(X)
 
 # Create additional dimension of 1 for X_0
 X = np.stack([np.ones(m), X], axis=1)
+X_s = np.stack([np.ones(m), X_s], axis=1)
 
 # Manipulate X for polynomial regression
 def polyX(X, deg):
@@ -107,7 +109,7 @@ def checkProg(history):
     plt.xlabel("No. of Iterations")
 
 # Testing
-iteration = 12000
+iteration = 4000
 alpha = 0.0001
 theta, history = results(X, y, theta, alpha, iteration)
 print("Compare with Normal Equation Results")
