@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Import or Data Sets for Testing
+# Import or Generate Data Sets for Testing
 
 # Random Training Set
 def randomData(start, end, size):
@@ -38,16 +38,25 @@ m = y.size
 # Feature Scale Training Set
 #X, y = featureScaling(X, y)
 
-# Create additional dimension of 1 for X
+# Create additional dimension of 1 for X_0
 X = np.stack([np.ones(m), X], axis=1)
 
-# Implementation of Cost Function, single variable
+# Manipulate X for polynomial regression
+def polyX(X, deg):
+    theta = np.zeros(deg+1)
+    M = np.ones(X.shape[0])
+    for i in range(1, deg + 1):
+        S = (X[:,1]).copy() ** i
+        M = np.column_stack([M, S])
+    return M, theta
+
+# Implementation of Cost Function
 def cost_function(X, y, theta):
     m = y.size
     J = (1 / (2 * m)) * sum(np.square(np.dot(X, theta) - y))
     return J
 
-# Implementation of Gradient Descent, single variable
+# Implementation of Gradient Descent
 def gradient_descent(X, y, theta, alpha, iteration):
     m = y.size
     theta = theta.copy()
