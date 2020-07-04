@@ -8,3 +8,4 @@ Visualizations with graph plots might be included for some of the algorithms.
 ## What is Completed
 Currently, this repository contains the implementation of:
 - Linear Regression (Single & Multivariable, via Gradient Descent and Normal Equation)
+- Polynomial Regression
