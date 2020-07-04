@@ -1,32 +1,57 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+import random
 
-X = np.array([1, 2, 3, 4, 5, 6])
-y = np.array([0, 0, 0, 1, 1, 1])
-theta = np.zeros(2)
+# Import or Generate Training Set
+X, y = make_classification(n_samples=100, n_features=2,
+                           n_redundant=0, n_informative=1,
+                           n_clusters_per_class=1, random_state=random.randint(10,20))
 
-X = np.stack([np.ones(y.size), X], axis=1)
-print(X)
+# Initialize Theta Values
+theta = np.zeros(3)
 
-fig = plt.figure()
-plt.plot(X[y==0, 1], y[y==0], 'ro')
-plt.plot(X[y==1, 1], y[y==1], 'bo')
+# Add column of 1's for X_0
+X = np.column_stack([np.ones(y.size), X])
 
+# Function for plotting Result and Cost History
+def plotData(X, y, theta, history):
+    fig = plt.figure(1)
+    pos = y == 1
+    neg = y == 0
+    plt.plot(X[neg, 1], X[neg, 2], 'ro')
+    plt.plot(X[pos, 1], X[pos, 2], 'bo')
+
+    slope = -(theta[1] / theta[2])
+    intercept = -(theta[0] / theta[2])
+    ax = plt.gca()
+    x_vals = np.array(ax.get_xlim())
+    y_vals = intercept + (slope * x_vals)
+    plt.plot(x_vals, y_vals, c="k");
+
+    fig = plt.figure(2)
+    plt.plot([i for i in range(len(history))], history, '-')
+    plt.show()
+
+# Sigmoid Function
 def sigmoid(z):
     z = np.array(z)
     g = 1 / (1 + np.exp(-z))
     return g
 
+# Hypothesis Function
 def hypothesis_func(X, theta):
     z = np.dot(X, theta)
     return sigmoid(z)
 
+# Cost Function
 def costFunction(X, y, theta):
     h = hypothesis_func(X, theta)
     m = y.size
     cost = (1 / m) * sum(-y * np.log(h) - (1 - y) * np.log(1 - h))
     return cost
 
+# Gradient Descent implementation
 def gradientDescent(X, y, theta, alpha, iteration):
     theta = theta.copy()
     history = []
@@ -37,12 +62,14 @@ def gradientDescent(X, y, theta, alpha, iteration):
         history.append(costFunction(X, y, theta))
     return theta, history
 
-theta, history = gradientDescent(X, y, theta, 0.000006, 2400)
-print(hypothesis_func(np.array([1, 5]), theta))
-print(history[:2])
-print('.....')
-print(history[len(history)-2:])
-plt.plot(X[:, 1], hypothesis_func(X, theta), '-')
-print(hypothesis_func(X, theta))
-plt.show()
 
+theta, history = gradientDescent(X, y, theta, 0.003, 2800)
+
+print("Cost History: ")
+print(history[:5])
+print('.....')
+print(history[len(history)-5:])
+print("Final Theta: ")
+print(theta)
+
+plotData(X, y, theta, history)
