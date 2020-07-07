@@ -31,7 +31,7 @@ def featureScaling(X):
 X, y = linearCluster(50, 2, 90)
 
 # Initial Theta Val
-theta = [0, 0]
+theta = np.zeros(2)
 
 # Training set Size
 m = y.size
@@ -53,19 +53,21 @@ def polyX(X, deg):
     return M, theta
 
 # Implementation of Cost Function
-def cost_function(X, y, theta):
+def cost_function(X, y, theta, lambda_):
     m = y.size
-    J = (1 / (2 * m)) * sum(np.square(np.dot(X, theta) - y))
+    J = (1 / (2 * m)) * (sum(np.square(np.dot(X, theta) - y)) + lambda_ * sum(theta ** 2))
     return J
 
 # Implementation of Gradient Descent
-def gradient_descent(X, y, theta, alpha, iteration):
+def gradient_descent(X, y, theta, alpha, lambda_, iteration):
     m = y.size
     theta = theta.copy()
+    reg = theta.copy()
+    reg[0] = 0
     history = []
     for i in range(iteration):
-        theta = theta - (alpha / m) * (np.dot(X, theta) - y).dot(X)
-        history.append(cost_function(X, y, theta))
+        theta = theta - (alpha / m) * ((np.dot(X, theta) - y).dot(X) + (lambda_ / m) * reg)
+        history.append(cost_function(X, y, theta, lambda_))
     return theta, history
 
 # Implementation of Normal Equation
@@ -77,8 +79,8 @@ def normalEquation(X, y):
     return theta
 
 # Show and Return Results of Gradient Descent
-def results(X, y, theta, alpha, iteration):
-    theta, history = gradient_descent(X, y, theta, alpha, iteration)
+def results(X, y, theta, alpha, lambda_, iteration):
+    theta, history = gradient_descent(X, y, theta, alpha, lambda_, iteration)
     print("Gradient Descent Results")
     print("Final Theta: ")
     print(theta)
@@ -111,10 +113,11 @@ def checkProg(history):
 # Testing
 iteration = 4000
 alpha = 0.0001
-theta, history = results(X, y, theta, alpha, iteration)
+lambda_ = 3
+theta, history = results(X, y, theta, alpha, lambda_, iteration)
 print("Compare with Normal Equation Results")
 print("Final Theta: ")
 print(normalEquation(X, y))
 print("Final Cost: ")
-print(cost_function(X, y, normalEquation(X, y)))
+print(cost_function(X, y, normalEquation(X, y), 0))
 show(X, y, theta, history)
