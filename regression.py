@@ -71,9 +71,11 @@ def gradient_descent(X, y, theta, alpha, lambda_, iteration):
     return theta, history
 
 # Implementation of Normal Equation
-def normalEquation(X, y):
+def normalEquation(X, y, lambda_):
     X_t = np.transpose(X)
-    A = np.dot(X_t, X)
+    reg = np.eye(X.shape[1])
+    reg[0][0] = 0
+    A = np.dot(X_t, X) + lambda_ * reg
     I = np.linalg.inv(A)
     theta = np.dot(I, X_t).dot(y)
     return theta
@@ -91,11 +93,11 @@ def results(X, y, theta, alpha, lambda_, iteration):
     return theta, history
 
 # Show plots of result line and data, with Cost over Iterations
-def show(X, y, theta, history):
+def show(X, y, theta, history, lambda_):
     fig = plt.figure(1)
     plt.plot(X[:, 1], y, 'o', color='#c6aadf', ms=10, mec='k', label="Training Set")
     plt.plot(X[:, 1], np.dot(X, theta), '-', color='#bae4ff', label="Gradient Descent Method")
-    plt.plot(X[:, 1], np.dot(X, normalEquation(X, y)), '-', color='#f8a6a9', label="Normal Equation Method")
+    plt.plot(X[:, 1], np.dot(X, normalEquation(X, y, lambda_)), '-', color='#f8a6a9', label="Normal Equation Method")
     plt.ylabel('Random Data')
     plt.xlabel('Random Data')
     plt.legend()
@@ -117,7 +119,7 @@ lambda_ = 3
 theta, history = results(X, y, theta, alpha, lambda_, iteration)
 print("Compare with Normal Equation Results")
 print("Final Theta: ")
-print(normalEquation(X, y))
+print(normalEquation(X, y, lambda_))
 print("Final Cost: ")
-print(cost_function(X, y, normalEquation(X, y), 0))
-show(X, y, theta, history)
+print(cost_function(X, y, normalEquation(X, y, lambda_), lambda_))
+show(X, y, theta, history, lambda_)
