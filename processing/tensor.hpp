@@ -11,6 +11,7 @@ Eigen::VectorXd std(const Eigen::MatrixXd mat);
 Eigen::MatrixXd normalize(const Eigen::MatrixXd mat);
 std::vector<Eigen::MatrixXd> splitXY(const Eigen::MatrixXd mat, bool yright);
 std::vector<Eigen::MatrixXd> splitData(const Eigen::MatrixXd mat, float tsize);
+Eigen::MatrixXd addOne(const Eigen::MatrixXd mat);
 
 }
 

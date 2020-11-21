@@ -29,4 +29,11 @@ std::vector<Eigen::MatrixXd> splitData(const Eigen::MatrixXd mat, float tsize){
     return {mat.topRows(top), mat.bottomRows(rows - top)};
 }
 
+Eigen::MatrixXd addOne(const Eigen::MatrixXd mat){
+    Eigen::MatrixXd X(mat.rows(), mat.cols() + 1);
+    X.leftCols(1) = Eigen::MatrixXd::Constant(mat.rows(), 1, 1.0);
+    X.rightCols(mat.cols()) = mat;
+    return X;
+}
+
 } // Tensor Namespace
