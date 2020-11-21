@@ -1,2 +1,6 @@
 /pytemp
 /test
+/test/M
+*.bat
+*.o*
+*.exe
