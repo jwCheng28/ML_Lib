@@ -7,12 +7,11 @@ namespace Tree {
 std::unordered_map<float, float> label(std::vector<std::vector<float>> mat){
     std::unordered_map<float, float> labels;
     for (std::vector<float> r: mat) {
-        for (float c: r) {
-            if (!labels.count(c))
-                labels[c] = 1;
-            else
-                labels[c]++;
-        }
+        float c = r[r.size() - 1];
+        if (!labels.count(c))
+            labels[c] = 1;
+        else
+            labels[c]++;
     }
     return labels;
 }
@@ -46,6 +45,15 @@ class Decision{
 }
 
 // Decision Tree Class
+void DecisionTree::_uniqueFeature(){
+    for (int i = 0; i < mat.size(); i++)
+        unique.push_back(std::set<float> s);
+    for (const auniqueto& r: mat) {
+        for (int i = 0; i < r.size(); i++)
+            unique[i].insert(r[i]);
+    }
+}
+
 std::vector<std::vector<std::vector<float>>> DecisionTree::splitTree(Test test){
     std::vector<std::vector<float>> pass, fail;
     for (std::vector<float> r: mat)
@@ -71,11 +79,22 @@ float DecisionTree::gain(std::vector<std::vector<float>> left, std::vector<std::
 
 std::tuple<float, Test> DecisionTree::best_split(std::vector<std::vector<float>> data){
     int features = data[0].size() - 1, bgain = -1;
-    Question bq;
+    Test bq;
     float entropy = gini(data);
     for (int i = 0; i < features; i++) {
-        // Need a faster way to iterate through columns                
+        for (const auto& x: unique[i]) {
+            Test test = Test(i, x);
+            branch = splitTree(test);
+            if (!branch[0].size() || !branch[1].size())
+                continue;
+            float ent_diff = gain(branch[0], branch[1], entropy);
+            if (ent_diff > entropy) {
+                bq = test;
+                entropy = ent_diff;
+            }
+        }
     }
+    return std::tuple<float, Test>{entropy, bq};
 }
 
 DecisionTree DecisionTree::constructTree(){
