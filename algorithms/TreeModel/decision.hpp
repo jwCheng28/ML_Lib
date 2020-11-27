@@ -19,14 +19,15 @@ class DecisionTree{
         std::vector<std::vector<float>> mat;
         std::vector<std::set<float>> unique;
     public:
-        DecisionTree(std::vector<std::vector<float>> dt) : mat(dt) {}
+        DecisionTree(std::vector<std::vector<float>> dt);
         ~DecisionTree() {}
-        void _uniqueFeature();
         std::vector<std::vector<std::vector<float>>> splitTree(Test test);
         float gini(std::vector<std::vector<float>> data);
         float gain(std::vector<std::vector<float>> left, std::vector<std::vector<float>> right, float entropy);
         std::tuple<float, Test> best_split(std::vector<std::vector<float>> data);
-        DecisionTree constructTree();
+        DecisionTree constructTree(std::vector<std::vector<float>> data);
 };
 
 } // Tree Namespace
+
+#endif
