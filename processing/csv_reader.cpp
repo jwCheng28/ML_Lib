@@ -32,7 +32,7 @@ std::vector<std::string> CSV_READER::getRow(bool start){
     std::vector<std::string> line;
     if (getline(iter.datafile, cur))
         boost::algorithm::split(line, cur, boost::is_any_of(","));
-    for (auto a: line)
+    for (std::string& a: line)
         if (a == std::string("")) {a = std::string("0");}
     return line;
 }
