@@ -4,6 +4,6 @@
 #include "LinearModel/linreg.hpp"
 #include "LinearModel/logreg.hpp"
 //#include "TreeModel/decision.hpp"
-#include "InstaceBased/knn.hpp"
+#include "InstanceBased/knn.hpp"
 
 #endif
