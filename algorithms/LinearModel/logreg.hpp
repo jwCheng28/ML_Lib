@@ -7,10 +7,10 @@ namespace Linear {
 
 class LogisticRegression : public LinearModel{
     public:
-        LogisticRegression(Eigen::MatrixXd X, Eigen::VectorXd y) : LinearModel(X, y) {}
+        LogisticRegression(int dimension, int features) : LinearModel(dimension, features) {}
         Eigen::MatrixXd sigmoid(Eigen::MatrixXd mat);
-        float costFunction();
-        void gradientDescent(float alpha, int epochs, std::vector<float>& hist, bool cost);
+        float costFunction(Eigen::MatrixXd X, Eigen::VectorXd y);
+        void gradientDescent(const Eigen::MatrixXd& X, const Eigen::VectorXd& y, float alpha, int epochs, std::vector<float>& hist, bool cost);
 };
 
 } // Linear Namespace

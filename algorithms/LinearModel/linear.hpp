@@ -8,28 +8,24 @@ namespace Linear {
 
 class LinearModel{
     protected:
-        Eigen::MatrixXd X;
-        Eigen::VectorXd y;
         Eigen::VectorXd theta;
         int m;
     public:
-        LinearModel(Eigen::MatrixXd X, Eigen::VectorXd y) 
+        LinearModel(int dimension, int features) 
         {
-            this -> X = X;
-            this -> y = y;
-            m = X.rows();
-            theta = Eigen::VectorXd::Random(X.cols());
+            m = dimension;
+            theta = Eigen::VectorXd::Random(features);
         }
         void setTheta(Eigen::VectorXd theta) 
         {
-            this->theta = theta;
+            this -> theta = theta;
         }
         Eigen::VectorXd getTheta() 
         {
             return theta;
         }
-        virtual float costFunction() = 0;
-        virtual void gradientDescent(float alpha, int epochs, std::vector<float>& hist, bool cost) = 0;
+        virtual float costFunction(Eigen::MatrixXd X, Eigen::VectorXd y) = 0;
+        virtual void gradientDescent(const Eigen::MatrixXd& X, const Eigen::VectorXd& y, float alpha, int epochs, std::vector<float>& hist, bool cost) = 0;
 };
 
 } // Linear Namespace
