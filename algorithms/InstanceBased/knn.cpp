@@ -11,7 +11,7 @@ float KNN::minkowski(Eigen::VectorXd x1, Eigen::VectorXd x2){
     return (x1 - x2).array().abs().pow(minkowski_p).sum();
 }
 
-std::vector<int> KNN::predict(Eigen::MatrixXd train_X, Eigen::VectorXd train_y, Eigen::MatrixXd test){
+std::vector<int> KNN::predict(Eigen::MatrixXd& train_X, Eigen::VectorXd& train_y, Eigen::MatrixXd& test){
     std::vector<int> result;
     for (int r = 0; r < test.rows(); r++) {
         std::vector<std::tuple<float, int>> pts_dist;

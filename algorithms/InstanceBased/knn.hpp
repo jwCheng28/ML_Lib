@@ -14,7 +14,7 @@ class KNN{
         KNN(int k, int p) : k_neighbor(k), minkowski_p(p) {}
         ~KNN() {}
         float minkowski(Eigen::VectorXd x1, Eigen::VectorXd x2);
-        std::vector<int> predict(Eigen::MatrixXd train_X, Eigen::VectorXd train_y, Eigen::MatrixXd test);
+        std::vector<int> predict(Eigen::MatrixXd& train_X, Eigen::VectorXd& train_y, Eigen::MatrixXd& test);
 };
 
 } // Instance Namespace
