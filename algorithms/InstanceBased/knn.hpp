@@ -7,6 +7,11 @@
 namespace Instance {
 
 class KNN{
+    /*
+    Constructor param:
+        int -> k neighbors
+        int -> minkowski distance power: 1 - Manhanttan dist, 2 - Euclidean
+    */
     private:
         int k_neighbor;
         int minkowski_p;
