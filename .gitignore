@@ -1,7 +1,7 @@
 /pytemp
 /test
-/test/M
 *.bat
 *.o*
 *.exe
 test.*
+*._*
