@@ -15,6 +15,14 @@ Eigen::MatrixXd normalize(const Eigen::MatrixXd mat){
     return (mat.rowwise() - mean(mat).transpose()).array().rowwise() / std(mat).transpose().array();
 }
 
+float similarity(const Eigen::VectorXd v1, const Eigen::VectorXd v2){
+    Eigen::VectorXd temp = v1 - v2;
+    int count = 0;
+    for (const int& val : temp)
+        count += !val;
+    return count / temp.rows();
+}
+
 std::vector<Eigen::MatrixXd> splitXY(const Eigen::MatrixXd mat, bool yright){
     int cols = mat.cols();
     if (yright)
