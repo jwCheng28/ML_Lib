@@ -5,7 +5,7 @@
 
 namespace Instance {
 
-void setFeature(int k, int p) {
+void KNN::setFeature(int k, int p) {
     k_neighbor = k;
     minkowski_p = p;
 }

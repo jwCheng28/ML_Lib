@@ -18,7 +18,7 @@ class KNN{
     public:
         KNN(int k, int p) : k_neighbor(k), minkowski_p(p) {}
         ~KNN() {}
-        void setFeature(int k=k_neighbor, int p=minkowski_p);
+        void setFeature(int k, int p);
         float minkowski(Eigen::VectorXd x1, Eigen::VectorXd x2);
         std::vector<int> predict(Eigen::MatrixXd& train_X, Eigen::VectorXd& train_y, Eigen::MatrixXd& test);
 };
