@@ -3,6 +3,7 @@
 
 #include <eigen3/Eigen/Dense>
 #include <vector>
+#include <cmath>
 
 namespace Linear {
 
@@ -14,7 +15,7 @@ class LinearModel{
         LinearModel(int dimension, int features) 
         {
             m = dimension;
-            theta = Eigen::VectorXd::Random(features);
+            theta = Eigen::VectorXd::Random(features).cwiseAbs();
         }
         void setTheta(Eigen::VectorXd theta) 
         {
