@@ -1,5 +1,6 @@
 #include "csv_reader.hpp"
 #include <iostream>
+#include <string>
 #include <cctype>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/cxx11/all_of.hpp>
@@ -47,15 +48,16 @@ std::vector<std::vector<std::string>> CSV_READER::loadAll(bool start) {
     return data;
 }
 
-bool isNumber(const string& s) {
-    return !s.empty() && boost:algorithm::all_of(s, [](char c){return std::isdigit(c);});
+/*
+bool isNumber(const std::string& s) {
+    return !s.empty() && boost::algorithm::all_of(s, [](char c){return std::isdigit(c);});
 }
 
 std::vector<std::vector<boost::any>> CSV_READER::toAllType(std::vector<std::vector<std::string>>& data) {
     std::vector<std::vector<boost::any>> allTypeData;
     for (auto& row : data) {
         std::vector<boost::any> curRow;
-        for (string val : row) {
+        for (std::string val : row) {
             if (isNumber(val))
                 curRow.push_back(std::stoi(val));
             else
@@ -65,6 +67,7 @@ std::vector<std::vector<boost::any>> CSV_READER::toAllType(std::vector<std::vect
     }
     return allTypeData;
 }
+*/
 
 Eigen::VectorXd CSV_READER::rowToVect(std::vector<std::string> row) {
     int len = row.size();
