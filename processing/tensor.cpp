@@ -16,11 +16,11 @@ Eigen::MatrixXd normalize(const Eigen::MatrixXd mat) {
 }
 
 float similarity(const Eigen::VectorXd v1, const Eigen::VectorXd v2) {
-    Eigen::VectorXd temp = v1 - v2;
-    int count = 0;
-    for (const int& val : temp)
-        count += !val;
-    return count / temp.rows();
+    Eigen::VectorXd diff = v1 - v2;
+    int similar = 0;
+    for (int i = 0; i < diff.size(); ++i)
+        similar += (diff[i] < 0.001);
+    return similar / diff.size();
 }
 
 std::vector<Eigen::MatrixXd> split(const Eigen::MatrixXd mat, int axis, int size) {
