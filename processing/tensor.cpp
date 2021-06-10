@@ -1,4 +1,5 @@
 #include "tensor.hpp"
+#include <cmath>
 
 namespace Tensor {
 
@@ -7,20 +8,23 @@ Eigen::VectorXd mean(const Eigen::MatrixXd mat) {
 }
 
 Eigen::VectorXd std(const Eigen::MatrixXd mat) {
-    return ((mat.rowwise() - mean(mat).transpose()).array().square().colwise().sum() 
-            / (mat.rows() - 1)).sqrt();
+    return ( ( mat.rowwise() - mean(mat).transpose() ).array().square().colwise().sum() 
+            / mat.rows() ).sqrt();
 }
 
 Eigen::MatrixXd normalize(const Eigen::MatrixXd mat) {
-    return (mat.rowwise() - mean(mat).transpose()).array().rowwise() / std(mat).transpose().array();
+    Eigen::VectorXd mu = mean(mat);
+    Eigen::VectorXd sigma = std(mat);
+    return (mat.rowwise() - mu.transpose()).array().rowwise() / sigma.transpose().array();
 }
 
 float similarity(const Eigen::VectorXd v1, const Eigen::VectorXd v2) {
     Eigen::VectorXd diff = v1 - v2;
     int similar = 0;
-    for (int i = 0; i < diff.size(); ++i)
-        similar += (diff[i] < 0.001);
-    return similar / diff.size();
+    for (int i = 0; i < diff.size(); ++i) {
+        similar += (fabs(diff[i]) < 1e-9);
+    }
+    return (float) similar / diff.size();
 }
 
 std::vector<Eigen::MatrixXd> split(const Eigen::MatrixXd mat, int axis, int size) {
