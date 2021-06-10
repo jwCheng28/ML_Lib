@@ -14,8 +14,7 @@ void LinearRegression::gradientDescent(const Eigen::MatrixXd& X, const Eigen::Ve
         // th -= (a/m) * (X.dot(th) - y).dot(X)
         theta -= (alpha / m) * (((X * theta) - y).transpose() * X).transpose();
         hist.push_back(costFunction(X, y));
-        if (cost)
-            std::cout << "Epoch: " << i+1 << ", Cost: " << hist[i] << std::endl;
+        if (cost) std::cout << "Epoch: " << i+1 << ", Cost: " << hist[i] << std::endl;
     }
 }
 

@@ -15,11 +15,12 @@ class LinearModel{
         LinearModel(int dimension, int features) 
         {
             m = dimension;
-            theta = Eigen::VectorXd::Random(features).cwiseAbs();
+            //theta = Eigen::VectorXd::Random(features).cwiseAbs();
+            theta = Eigen::VectorXd::Zero(features);
         }
         void setTheta(Eigen::VectorXd theta) 
         {
-            this -> theta = theta;
+            this->theta = theta;
         }
         Eigen::VectorXd getTheta() 
         {
