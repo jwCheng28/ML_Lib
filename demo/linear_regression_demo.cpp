@@ -75,6 +75,7 @@ void test1() {
     int rows = data.size(), cols = data[0].size();
     MatrixXd dataM = csv_file->csvToMat(true, data);
     NEtest(dataM, rows, cols);
+    delete csv_file;
 }
 
 // TO DO
